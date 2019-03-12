@@ -225,7 +225,22 @@
 \begin{homeworkProblem}[1 - Calcular $\int_{0}^{1} xe^{-x}dx$ de três formas diferentes.]
 
 	\begin{homeworkSection}
-		
+		Primeiro calculando a integral indefinida:
+		\begin{equation}
+		\int x e^{-x} dx = -e^{-x}x - e^{-x} + k,
+		\end{equation}
+		onde k é uma constante, que daqui para frente assumiremos $k = 0$. Aplicando integral por parte com $u = x$ e $v^{\prime} = e^{-x}$, teremos
+		\begin{equation}
+		-e^{-x}x - e^{-x} + k = -e^{-x} - \in - e^{-x} dx.
+		\end{equation}
+		Como $\int - e^{-x}dx = e^{-x}$, teremos
+		\begin{equation}
+		= -e^{-x}x - e^{-x} 
+		\end{equation}
+		Calculando os limites:
+		\begin{equation}
+		\int_{0}^{1}xe^{-x}dx = -\frac{2}{e} - (-1) = -\frac{2}{e} + 1
+ 		\end{equation}
 	\end{homeworkSection}
 
 \end{homeworkProblem}
