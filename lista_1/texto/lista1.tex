@@ -41,6 +41,8 @@
 \usepackage{amssymb}
 \usepackage{epstopdf}
 \usepackage{subcaption}
+\usepackage{myMacros}
+\usepackage{listings}
 
 % Margins
 \topmargin=-0.45in
@@ -222,29 +224,121 @@
 % To have just one problem per page, simply put a \clearpage after each problem
 
 
-\begin{homeworkProblem}[1 - Calcular $\int_{0}^{1} xe^{-x}dx$ de três formas diferentes.]
+\begin{homeworkProblem}
+	Calcular $\int_{0}^{1} xe^{-x}dx$ de três formas diferentes.
 
-	\begin{homeworkSection}
-		Primeiro calculando a integral indefinida:
+	\begin{homeworkSection}[a) Primeiro calculando a integral indefinida.]
+		
 		\begin{equation}
 		\int x e^{-x} dx = -e^{-x}x - e^{-x} + k,
 		\end{equation}
 		onde k é uma constante, que daqui para frente assumiremos $k = 0$. Aplicando integral por parte com $u = x$ e $v^{\prime} = e^{-x}$, teremos
 		\begin{equation}
-		-e^{-x}x - e^{-x} + k = -e^{-x} - \in - e^{-x} dx.
+		-e^{-x}x - e^{-x} + k = -e^{-x} - \int - e^{-x} dx.
 		\end{equation}
 		Como $\int - e^{-x}dx = e^{-x}$, teremos
 		\begin{equation}
-		= -e^{-x}x - e^{-x} 
+		-e^{-x} - \int - e^{-x} dx = -e^{-x}x - e^{-x}.
 		\end{equation}
 		Calculando os limites:
 		\begin{equation}
-		\int_{0}^{1}xe^{-x}dx = -\frac{2}{e} - (-1) = -\frac{2}{e} + 1
+		\int_{0}^{1}xe^{-x}dx = -\frac{2}{e} - (-1) = -\frac{2}{e} + 1 \approx 0.26424\dots 
  		\end{equation}
+ 		
 	\end{homeworkSection}
 
+	\begin{homeworkSection}[b) Pelo método de Monte Carlo, usando 10 números escolhidos aleatoriamente com densidade uniforme entre 0 e 1.]
+		
+	Os números gerados: $ \Ical =  ( 0.29097317, 0.71138164, 0.01536752, 0.12761764, 0.64961303,	0.187312, \\ 0.61146622, 0.22022406, 0.71521083, 0.10874773)$
+	
+	O calculo:
+	\begin{equation}
+		\label{eq:integral_aproximada}
+		\int_{0}^{1} xe^{-x}d \approxeq \dfrac{\sum_{i \in \Ical} ie^{-i}}{|\Ical|} 
+	\end{equation}
+		onde $|\Ical|$ é a cardinalidade do conjunto $\Ical$.
+	
+	Para o conjunto $\Ical$ o resultado foi $0.21446048$.
+	\end{homeworkSection}
+	\begin{homeworkSection}[c) Pelo método de Monte Carlo, usando 10 números escolhidos aleatoriamente com densidade exponencial (note que as amostras geradas a partir da p.d.f. exponencial devem ser limitadas ao intervalo de 0 a 1).]
+		
+		Os números gerados: $ \Wcal =  (0.08543949, 2.25812132, 0.3702004 , 0.38308359, 1.67093227,	1.31658109, \\ 0.7362191 , 0.51912815, 0.09628735, 5.96343813)$
+		
+		Utilizando a equação~\eqref{eq:integral_aproximada} para o conjunto $\Wcal$, o resultado encontrado foi $0.2262788$.
+		
+		\textbf{Discussão:} apesar do resultado encontrado para os números gerados neste exemplo mostrarem que a distribuição exponencial chegar mais próximo ao valor da integral, quando aumentamos o número de amostras geradas, a distribuição normal alcança um resultado mais próximo do calculado no primeiro item do exercício. Vendo o gráfico da função $xe^{-x}$, pode-se visualmente pensar que isso ocorre pois no intervalo a curva tem uma tendência mais normal do que exponencial.
+	\end{homeworkSection}
 \end{homeworkProblem}
 
 %----------------------------------------------------------------------------------------
+\clearpage
+
+\begin{homeworkProblem}
+	Usando $ N = 20 $ números aleatórios, escolhidos a partir de uma p.d.f. uniforme entre $-1$ e $ +1 $, calcular uma aproximação para o número $\pi$ pelo método de Monte Carlo. Faça o mesmo no computador, utilizando um valor alto para N (por exemplo, 1.000.000). Comente o resultado.
+
+
+
+A fórmula para $\pi$ utilizada é,
+\begin{equation} 
+\label{eq:pi}
+\pi = \int_{-1}^{1} \frac{dx}{\sqrt{1-x^{2}}}
+\end{equation}
+
+Os números gerados: $ \Qcal =  (0.69754726,  0.51144544, -0.78323647, -0.66956193,  0.90813157,
+0.25154249,  \\ 0.09702152  -0.88948143, -0.74180524,  0.65899295,
+0.05104066,  0.07932701, -0.55706355, -0.87772446 \\  0.89741046,
+0.71267101,  0.98467096, -0.63258529, -0.51673907,  0.64780901)$
+
+O calculo:
+\begin{equation}
+\label{eq:pi_aproximado}
+\int_{-1}^{1} \frac{dx}{\sqrt{1-x^{2}}} \approxeq \dfrac{\sum_{q \in \Qcal} \left(\sqrt{1-q^{2}}\right)^{-1}}{|\Qcal|} 
+\end{equation}
+onde $|\Qcal|$ é a cardinalidade do conjunto $\Qcal$.
+
+Utilizando o conjunto $\Qcal$, o resultado obtido foi $1.672111$. Para um valor de $N$ alto, foi utilizado $N = 10^{6}$, onde o valor obtido foi $1,57$
+
+\end{homeworkProblem}
+\clearpage
+
+%----------------------------------------------------------------------------------------
+
+\begin{homeworkProblem}
+	
+	Escrever um algoritmo para gerar números $x(n)$ com energia $J(x) = x^{2}$, de forma que as probabilidades dos números gerados ejam proporcionais aos fatores de Boltzmann $e^{-J(x)/T}$, com temperatura $T = 0.1$. Começando de um valor $x(0)$ qualquer, aplique sempre perturbações $\epsilon R$ ao valor $x(n)$ atual. Neste caso, R é uma vriável aleatória uniforme. Considere $\epsilon = 0.1$.
+	
+	\begin{homeworkSection}[a) Execute o algoritmo proposto no computador, calculando $x(n)$ até $n = 100.000$.]
+	O algoritmo.
+		\begin{lstlisting}[language=Python]
+		# Definindo:
+		x_validos = np.array(0)  # definindo o primeiro ponto, x_0 
+		epsilon = 0.1
+		T = 0.1		
+		n = 100000
+		
+		while np.size(x_validos) != n:
+			R = np.random.uniform(0,1) 
+			x_candidato = x_n + epsilon*R
+			delta_J = (x_candidato)**2 - x_n**2
+			q = exp(-delta_J/T)
+			r = np.random.uniform(0,1)
+			if r > q:
+				a = 0
+			else:
+				a = 1
+			x_proximo = (1-a)*x_n + a*x_candidato 
+			if x_proximo != x_n:
+				x_validos = np.append(x_validos,x_proximo)
+		\end{lstlisting}
+		
+		
+	\end{homeworkSection}
+	
+	\begin{homeworkSection}[b) Execute manualmente os 10 primeiros passos do algoritmo.]
+
+	\end{homeworkSection}
+
+
+\end{homeworkProblem}
 
 \end{document}
