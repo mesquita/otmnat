@@ -124,25 +124,33 @@
 \newcommand{\enterProblemHeader}[1]{
 \nobreak\extramarks{#1}{#1 continua na próxima página\ldots}\nobreak
 \nobreak\extramarks{#1 (continuação)}{#1 continua na próxima página\ldots}\nobreak
+
 }
 
 % Header and footer for when a page split occurs between problem environments
 \newcommand{\exitProblemHeader}[1]{
 \nobreak\extramarks{#1 (continuação)}{#1 continua na próxima página\ldots}\nobreak
-\nobreak\extramarks{#1}{}\nobreak
+
+\addtocounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Questão \arabic{homeworkProblemCounter}}{}\nobreak
+\addtocounter{homeworkProblemCounter}{-1}
 }
 
 \setcounter{secnumdepth}{0} % Removes default section numbers
 \newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
 
 \newcommand{\homeworkProblemName}{}
-\newenvironment{homeworkProblem}[1][Questão \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+
+
+\newenvironment{homeworkProblem}[1][Questão \arabic{homeworkProblemCounter}]
+{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
 \stepcounter{homeworkProblemCounter} % Increase counter for number of problems
 \setcounter{homeworkItemCounter}{0}
 \renewcommand{\homeworkProblemName}{#1} % n \homeworkProblemName the name of the problem
 \section{\homeworkProblemName} % Make a section in the document with the custom problem count
 \enterProblemHeader{\homeworkProblemName} % Header and footer within the environment
-}{
+}
+{
 \exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
 }
 
@@ -175,10 +183,10 @@
 %----------------------------------------------------------------------------------------
 
 \newcommand{\hmwkTitle}{Lista\ de\ Exercícios\ \#1} % Assignment title
-\newcommand{\hmwkDueDate}{Terça,\ 19\ de\ Março,\ 2019} % Due date
+\newcommand{\hmwkDueDate}{Quinta,\ 21\ de\ Março,\ 2019} % Due date
 \newcommand{\hmwkClass}{CPE723 Otimização Natural} % Course/class
 \newcommand{\hmwkClassTime}{Terças e Quintas: 08:00-10:00} % Class/lecture time
-\newcommand{\hmwkClassInstructor}{Profs. José Gabriel Rodríguez Carneiro Gomes} % Teacher/lecturer
+\newcommand{\hmwkClassInstructor}{Prof. José Gabriel Rodríguez Carneiro Gomes} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Vinicius Mesquita de Pinho} % Your name
 \newcommand{\hmwkAuthorShortName}{Vinicius Mesquita} % Nome que aparece no cabeçalho
 
@@ -213,6 +221,7 @@
 
 %\setcounter{tocdepth}{1} % Uncomment this line if you don't want subsections listed in the ToC
 
+\clearpage
 \newpage
 %\tableofcontents
 %\newpage
@@ -223,7 +232,7 @@
 
 % To have just one problem per page, simply put a \clearpage after each problem
 
-
+\setcounter{homeworkProblemCounter}{0}
 \begin{homeworkProblem}
 	Calcular $\int_{0}^{1} xe^{-x}dx$ de três formas diferentes.
 
@@ -269,7 +278,7 @@
 
 	\end{homeworkSection}
 \end{homeworkProblem}
-
+\clearpage
 %----------------------------------------------------------------------------------------
 \newpage
 
@@ -306,7 +315,7 @@ A lei dos grandes números garante que a com um número maior amostras utilizada
 
 
 \end{homeworkProblem}
-
+\clearpage
 \newpage
 %----------------------------------------------------------------------------------------
 
@@ -341,7 +350,7 @@ A lei dos grandes números garante que a com um número maior amostras utilizada
 		
 		while not(fim):
 			n = n + 1
-			x = x_atual + epsilon*(np.random.normal(0, 1))
+			x = x_atual + epsilon*(np.random.uniform(-1, 1))
 			J = funcao_J(x)
 			todos_J = np.append(todos_J,J)
 			todos_x = np.append(todos_x,x)
@@ -362,125 +371,40 @@ A lei dos grandes números garante que a com um número maior amostras utilizada
 		
 	Utilizando a mesma lógica proposta na letra a), executamos os 10 primeiros passos do algoritmo, manualmente.
 	
-	Na 1ª iteração.
-	
-	O valor de x atual é $ 0 $. Com o ruído, o x passa a valer $0.1067$. 
-	
-	Avaliando a função em x, temos que J vale $0.01138$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi verdadeiro.
-	
-	Então no momento, o x atual é $ 0.1067 $, e o J atual é $0.01138$.
-	
-	
-	Na 2ª iteração.
-	
-	O valor de x atual é $ 0.1067 $. Com o ruído, o x passa a valer $0.1088$.
-	
-	Avaliando a função em x, temos que J vale $0.01183$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi verdadeiro.
-	
-	Então no momento, o x atual é $ 0.1088 $, e o J atual é $0.01183$.
-	
-	
-	Na 3ª iteração.
-	
-	O valor de x atual é $ 0.1088 $. Com o ruído, o x passa a valer $0.1671$.
-	
-	Avaliando a função em x, temos que J vale $0.0279$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi verdadeiro.
-	
-	Então no momento, o x atual é $ 0.1671 $, e o J atual é $0.0279$.
-	
-	
-	Na 4ª iteração.
-	
-	O valor de x atual é $ 0.1671 $. Com o ruído, o x passa a valer $0.1091$.
-	
-	Avaliando a função em x, temos que J vale $0.0119$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi verdadeiro.
-	
-	Então no momento, o x atual é $ 0.1091 $, e o J atual é $0.0119$.
-	
-	
-	Na 5ª iteração.
-	
-	O valor de x atual é $ 0.1091 $. Com o ruído, o x passa a valer $0.1633$.
-	
-	Avaliando a função em x, temos que J vale $0.0266$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi verdadeiro.
-	
-	Então no momento, o x atual é $ 0.1633 $, e o J atual é $0.0266$.
-	
-	Na 6ª iteração.
-	
-	O valor de x atual é $ 0.1633 $. Com o ruído, o x passa a valer $0.3383$.
-	
-	Avaliando a função em x, temos que J vale $ 0.1145$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi falso.
-	
-	Então no momento, o x atual é $ 0.1633 $, e o J atual é $0.0266$.
-	
-	Na 7ª iteração.
-	
-	O valor de x atual é $ 0.1633 $. Com o ruído, o x passa a valer $0.1423$.
-	
-	Avaliando a função em x, temos que J vale $0.0202$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi verdadeiro.
-	
-	Então no momento, o x atual é $ 0.1423 $, e o J atual é $0.0202$.
-	
-	Na 8ª iteração.
-	
-	O valor de x atual é $0.1423 $. Com o ruído, o x passa a valer $0.0910$.
-	
-	Avaliando a função em x, temos que J vale $0.008$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi verdadeiro.
-	
-	Então no momento, o x atual é $ 0.0910 $, e o J atual é $0.0082$.
-	
-	
-	Na 9ª iteração.
-	
-	O valor de x atual é $0.0910$. Com o ruído, o x passa a valer $0.2206$.
-	
-	Avaliando a função em x, temos que J vale $0.0486$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi falso.
-	
-	Então no momento, o x atual é $ 0.0910 $, e o J atual é $0.0082$.
-	
-	
-	Na 10ª iteração.
-	
-	O valor de x atual é $0.0910$. Com o ruído, o x passa a valer $0.2206$.
-	
-	Avaliando a função em x, temos que J vale $0.0298$.
-	
-	No teste de comparação com a variável uniforme r, o teste foi falso.
-	
-	Então no momento, o x atual é $ 0.1726 $, e o J atual é $0.0298$.
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[!h]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{c|c|c|c|c|c|c}
+			\multicolumn{1}{l|}{Iteração} & x atual & x candidato & J(x candidato) & r (uniforme) & q                               & r \textless q \\ \hline
+			\textbf{1}                    & 0.0000  & 0.0703      & 0.8262         & 0.9646       &  $\sim$ 3300 & V             \\
+			\textbf{2}                    & 0.0703  & 0.0770      & 0.7146         & 0.8961       & 3.0537                          & V             \\
+			\textbf{3}                    & 0.0770  & 0.1033      & 0.3512         & 0.2745       & 37.8699                         & V             \\
+			\textbf{4}                    & 0.1033  & 0.1109      & 0.2666         & 0.3008       & 2.3294                          & V             \\
+			\textbf{5}                    & 0.1109  & 0.2090      & -0.2062        & 0.1587       & 113.0382                        & V             \\
+			\textbf{6}                    & 0.2090  & 0.2666      & -0.1403        & 0.0232       & 0.5177                          & V             \\
+			\textbf{7}                    & 0.2666  & 0.2908      & -0.0771        & 0.0128       & 0.5312                          & V             \\
+			\textbf{8}                    & 0.2908  & 0.3590      & 0.1326         & 0.8441       & 0.1229                          & F             \\
+			\textbf{9}                    & 0.2908  & 0.3750      & 0.1782         & 0.5509       & 0.0779                          & F             \\
+			\textbf{10}                   & 0.2908  & 0.3051      & -0.0345        & 0.5210       & 0.6532                          & V            
+		\end{tabular}%
+	}
+\end{table}
 	
 	
 	\end{homeworkSection}
 
 
 \end{homeworkProblem}
-
+\clearpage
 \newpage
 
 \begin{homeworkProblem}
 Escrever um programa de S.A. (pode ser pseudo-código) para minimizar a função escalar $J(x) = -x + 100(x - 0.2)^{2}(x-0.8)^{2}$. Começando de $x(0) = 0$ e utilizando geradores de números aleatórios (um uniforme e outro gaussiano), calcule manualmente os 10 primeiros valores de $x(n)$ gerados pelo S.A.
 
 
-	\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python]
 # Definindo a funcao
 def funcao_J(x):
 	return -x + 100*((x-0.2)**2)*((x-0.8)**2)
@@ -529,11 +453,96 @@ while not(fim):
 
 \end{lstlisting}
 
+\newpage
+O cálculo manual dos dez primeiros valores de x(n):
+
+Neste caso, quando o valor de  q $= \exp((J \, atual-J)/T)$ é muito grande, representei por $\sim$inf na tabela.
+
+\begin{table}[!h]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{c|c|c|c|c|c|c}
+			\multicolumn{1}{l|}{Iteração} & x atual & x candidato & J(x candidato) & r $\sim$ U(0,1) & q         & r \textless q \\ \hline
+			\textbf{1}                    & 0.0000  & 0.0775      & 0.7051         & 0.0940       & $\sim$inf & V             \\
+			\textbf{2}                    & 0.0775  & -0.0023     & 2.6372         & 0.3660       & 0         & F             \\
+			\textbf{3}                    & 0.0775  & 0.0766      & 0.7205         & 0.6785       & 0.0454    & F             \\
+			\textbf{4}                    & 0.0775  & 0.1179      & 0.1953         & 0.2147       & $\sim$inf & V             \\
+			\textbf{5}                    & 0.1179  & 0.1338      & 0.0604         & 0.8711       & $\sim$inf & V             \\
+			\textbf{6}                    & 0.1338  & 0.1121      & 0.2538         & 0.7671       & 0         & F             \\
+			\textbf{7}                    & 0.1338  & 0.1154      & 0.2204         & 0.9551       & 0         & F             \\
+			\textbf{8}                    & 0.1338  & 0.2042      & -0.2036        & 0.5003       & $\sim$inf & V             \\
+			\textbf{9}                    & 0.2042  & 0.1346      & 0.0545         & 0.1564       & 0         & F             \\
+			\textbf{10}                   & 0.2042  & 0.4453      & 0.3118         & 0.5321       & 0         & F            
+		\end{tabular}%
+	}
+\end{table}
 
 
 \end{homeworkProblem}
 %----------------------------------------------------------------------------------------
+\clearpage
+\newpage
+\begin{homeworkProblem}
+	Proponha uma função de até 4 variáveis cujo ponto mínimo você conheça, e encontre este ponto mínimo utilizando S.A. (neste exercício, basta entregar o código escrito).
+	
+	A função escolhida:
+	\begin{equation}
+	f(x,y) = (x-3)^{2} + xy + (y-1)^{2}
+	\end{equation}
+	Essa função tem mínimo em $\{x,y\} = \{\frac{10}{3},-\frac{2}{3}\}$.
 
+
+	O código em Python escrito para solução do problema:
+	
+	\begin{lstlisting}[language=Python]
+	
+# Definindo a funcao (que recebe um pont pt que eh funcao de x e y)
+def chosen_function(pt):
+	x = pt[0]
+	y = pt[1]
+	return (x-3)**2 + x*y + (y-1)**2
+
+# Ponto inicial	
+pt_inicial = np.array([0,0])
+
+J_inicial = chosen_function(pt_inicial)
+pt_atual = pt_inicial
+J_atual = J_inicial
+
+# Parametros utilizados
+N = 1000 
+K = 8
+T_inicial = 5e-1
+T = T_inicial
+epsilon = 10e-2
+
+fim = 0
+n = 0
+k = 1
+J_min = J_atual
+pt_min = pt_atual
+
+while not(fim):
+	n = n + 1
+	pt = pt_atual + epsilon*(np.random.normal(0, 1, 2))
+	J = chosen_function(pt)
+	if (np.random.uniform(0,1) < np.exp((J_atual-J)/T)):
+		pt_atual = pt
+		J_atual = J
+	if (J < J_min):
+		J_min = J
+		pt_min = pt
+	if (n % N == 0):
+		k = k + 1
+		T = T_inicial/(np.log(1+k))
+	if k == K:
+		fim = 1
+	
+	
+	
+	\end{lstlisting}
+		
+\end{homeworkProblem}
 
 
 \end{document}
