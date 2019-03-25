@@ -1,0 +1,548 @@
+% !TeX spellcheck = pt_BR
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Programming/Coding Assignment
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Ted Pavlic (http://www.tedpavlic.com)
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing assignment content.
+%
+% This template uses a Perl script as an example snippet of code, most other
+% languages are also usable. Configure them in the "CODE INCLUSION 
+% CONFIGURATION" section.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage[usenames,dvipsnames]{color} % Required for custom colors
+\usepackage{graphicx} % Required to insert images
+\usepackage{listings} % Required for insertion of code
+\usepackage{courier} % Required for the courier font
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{subcaption}
+\usepackage{myMacros}
+\usepackage{listings}
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\hmwkAuthorShortName} % Top left header
+\chead{\hmwkTitle} % Top center head
+\rhead{\firstxmark} % Top right header
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Pág.\ \thepage\ de\ \protect\pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%----------------------------------------------------------------------------------------
+%	CODE INCLUSION CONFIGURATION
+%----------------------------------------------------------------------------------------
+
+\definecolor{MyDarkGreen}{rgb}{0.0,0.4,0.0} % This is the color used for comments
+\lstloadlanguages{Matlab} % Load Perl syntax for listings, for a list of other languages supported see: ftp://ftp.tex.ac.uk/tex-archive/macros/latex/contrib/listings/listings.pdf
+
+\lstset{language=Matlab, % Use Perl in this example
+        frame=single, % Single frame around code
+        basicstyle=\small\ttfamily, % Use small true type font
+        keywordstyle=[1]\color{Blue}\bf, % Perl functions bold and blue
+        keywordstyle=[2]\color{Purple}, % Perl function arguments purple
+        keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
+        identifierstyle=, % Nothing special about identifiers                                         
+        commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
+        stringstyle=\color{Purple}, % Strings are purple
+        showstringspaces=false, % Don't put marks in string spaces
+        tabsize=5, % 5 spaces per tab
+        %
+        %FIX para o problema de enconding
+        extendedchars=true,
+        literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {ê}{{\^e}}1 {í}{{\'i}}1 {ú}{{\'u}}1 {ó}{{\'o}}1 {õ}{{\~o}}1 {ç}{{\c{c}}}1,
+        % Put standard Perl functions not included in the default language here
+        morekeywords={rand, exprnd,rng},
+        %
+        % Put Perl function parameters here
+        morekeywords=[2]{on, off, interp},
+        %
+        % Put user defined functions here
+        morekeywords=[3]{test},
+       	%
+        morecomment=[l][\color{Blue}]{...}, % Line continuation (...) like blue comment
+        numbers=left, % Line numbers on left
+        firstnumber=1, % Line numbers start with line 1
+        numberstyle=\tiny\color{Blue}, % Line numbers are blue and small
+        stepnumber=5 % Line numbers go in steps of 5
+}
+
+%Muda Listing #: para Trecho #
+\renewcommand{\lstlistingname}{Trecho}
+
+% Creates a new command to include a perl script, the first parameter is the filename of the script (without .pl), the second parameter is the caption
+\newcommand{\script}[2]{
+\begin{itemize}
+\item[]\lstinputlisting[caption=#2,label=#1]{#1}
+\end{itemize}
+}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+\nobreak\extramarks{#1}{#1 continua na próxima página\ldots}\nobreak
+\nobreak\extramarks{#1 (continuação)}{#1 continua na próxima página\ldots}\nobreak
+
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+\nobreak\extramarks{#1 (continuação)}{#1 continua na próxima página\ldots}\nobreak
+
+\addtocounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Questão \arabic{homeworkProblemCounter}}{}\nobreak
+\addtocounter{homeworkProblemCounter}{-1}
+}
+
+\setcounter{secnumdepth}{0} % Removes default section numbers
+\newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
+
+\newcommand{\homeworkProblemName}{}
+
+
+\newenvironment{homeworkProblem}[1][Questão \arabic{homeworkProblemCounter}]
+{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+\stepcounter{homeworkProblemCounter} % Increase counter for number of problems
+\setcounter{homeworkItemCounter}{0}
+\renewcommand{\homeworkProblemName}{#1} % n \homeworkProblemName the name of the problem
+\section{\homeworkProblemName} % Make a section in the document with the custom problem count
+\enterProblemHeader{\homeworkProblemName} % Header and footer within the environment
+}
+{
+\exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+%MODIFICAÇÕES ROBERTO
+\newcounter{homeworkItemCounter}
+%\newcommand{\homeworkItemName}{}
+%\newenvironment{homeworkItem}[1][Item \alph{homeworkItemCounter}]{
+%\stepcounter{homeworkItemCounter}
+%\renewcommand{\homeworkProblemName}{#1}
+%\subsection{\homeworkItemName}
+%}
+
+
+\newcommand{\problemAnswer}[1]{ % Defines the problem answer command with the content as the only argument
+\noindent\framebox[\columnwidth][c]{\begin{minipage}{0.98\columnwidth}#1\end{minipage}} % Makes the box around the problem answer and puts the content inside
+}
+
+\newcommand{\homeworkSectionName}{}
+\newenvironment{homeworkSection}[1][Item \alph{homeworkItemCounter})]{ % New environment for sections within homework problems, takes 1 argument - the name of the section
+\stepcounter{homeworkItemCounter}
+\renewcommand{\homeworkSectionName}{#1} % Assign \homeworkSectionName to the name of the section from the environment argument
+\subsection{\homeworkSectionName} % Make a subsection with the custom name of the subsection
+\enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]} % Header and footer within the environment
+}{
+\enterProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\hmwkTitle}{Lista\ de\ Exercícios\ \#2} % Assignment title
+\newcommand{\hmwkDueDate}{Quinta,\ 21\ de\ Março,\ 2019} % Due date
+\newcommand{\hmwkClass}{CPE723 Otimização Natural} % Course/class
+\newcommand{\hmwkClassTime}{Terças e Quintas: 08:00-10:00} % Class/lecture time
+\newcommand{\hmwkClassInstructor}{Prof. José Gabriel Rodríguez Carneiro Gomes} % Teacher/lecturer
+\newcommand{\hmwkAuthorName}{Vinicius Mesquita de Pinho} % Your name
+\newcommand{\hmwkAuthorShortName}{Vinicius Mesquita} % Nome que aparece no cabeçalho
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass:\\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Data\ de\ entrega:\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor,\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{} % Insert date here if you want it to appear below your name
+
+%----------------------------------------------------------------------------------------
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+\newcommand{\z}{\mathpzc{z}}
+\renewcommand{\v}[1]{\boldsymbol{\mathbf{#1}}}
+
+\begin{document}
+
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+%\setcounter{tocdepth}{1} % Uncomment this line if you don't want subsections listed in the ToC
+
+\clearpage
+\newpage
+%\tableofcontents
+%\newpage
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+% To have just one problem per page, simply put a \clearpage after each problem
+
+\setcounter{homeworkProblemCounter}{0}
+\begin{homeworkProblem}
+	Calcular $\int_{0}^{1} xe^{-x}dx$ de três formas diferentes.
+
+	\begin{homeworkSection}[a) Primeiro calculando a integral indefinida.]
+		
+		\begin{equation}
+		\int x e^{-x} dx = -e^{-x}x - e^{-x} + k,
+		\end{equation}
+		onde k é uma constante, que daqui para frente assumiremos $k = 0$. Aplicando integral por parte com $u = x$ e $v^{\prime} = e^{-x}$, teremos
+		\begin{equation}
+		-e^{-x}x - e^{-x} + k = -e^{-x} - \int - e^{-x} dx.
+		\end{equation}
+		Como $\int - e^{-x}dx = e^{-x}$, teremos
+		\begin{equation}
+		-e^{-x} - \int - e^{-x} dx = -e^{-x}x - e^{-x}.
+		\end{equation}
+		Calculando os limites:
+		\begin{equation}
+		\int_{0}^{1}xe^{-x}dx = -\frac{2}{e} - (-1) = -\frac{2}{e} + 1 \approx 0.26424\dots 
+ 		\end{equation}
+ 		
+	\end{homeworkSection}
+
+	\begin{homeworkSection}[b) Pelo método de Monte Carlo, usando 10 números escolhidos aleatoriamente com densidade uniforme entre 0 e 1.]
+		
+	Os números gerados: $ \Ical =  ( 0.66606563, 0.1280393 , 0.15019057, 0.53518197, 0.72382377,
+	0.56306944, \\ 0.18701318, 0.96037606, 0.79777229, 0.23135354)$
+	
+	O cálculo:
+	\begin{equation}
+		\label{eq:integral_aproximada}
+		\int_{0}^{1} xe^{-x}d \approx \dfrac{\sum_{i \in \Ical} ie^{-i}}{|\Ical|} 
+	\end{equation}
+		onde $|\Ical|$ é a cardinalidade do conjunto $\Ical$.
+	
+	Para o conjunto $\Ical$ o resultado foi $0.2634$.
+	\end{homeworkSection}
+	\begin{homeworkSection}[c) Pelo método de Monte Carlo, usando 10 números escolhidos aleatoriamente com densidade exponencial (note que as amostras geradas a partir da p.d.f. exponencial devem ser limitadas ao intervalo de 0 a 1).]
+		
+		Os números gerados: $ \Wcal =  (0.55005713, 0.39015194, 0.23349916, 0.41284879, 0.22265732, \\ 0.69167714, 0.43932533, 0.09646257, 0.60023859, 0.98892791)$
+		
+		Utilizando a equação~\eqref{eq:integral_aproximada} para o conjunto $\Wcal$, o resultado encontrado foi $0.2632$.
+
+	\end{homeworkSection}
+\end{homeworkProblem}
+\clearpage
+%----------------------------------------------------------------------------------------
+\newpage
+
+\begin{homeworkProblem}
+	Usando $ N = 20 $ números aleatórios, escolhidos a partir de uma p.d.f. uniforme entre $-1$ e $ +1 $, calcular uma aproximação para o número $\pi$ pelo método de Monte Carlo. Faça o mesmo no computador, utilizando um valor alto para N (por exemplo, 1.000.000). Comente o resultado.
+
+
+
+A fórmula para $\pi$ utilizada é,
+\begin{equation} 
+\label{eq:pi}
+\pi = \int_{-1}^{1} \frac{dx}{\sqrt{1-x^{2}}}
+\end{equation}
+
+Primeiro, para o $N= 20$. 
+
+Os números gerados: $ \Qcal =  (-0.85289404,  0.92237068,  0.32455622,  0.0946911 ,  0.8676302 ,
+-0.92568284,  0.76944606, \\ -0.90241725,  0.20247619, -0.69989244,
+-0.64724326,  0.91118243,  0.2354838 ,  0.8327723 , \\ -0.21647745,
+-0.5894811 , -0.81595565, -0.61292112,  0.12647561, -0.33242752)$
+
+O cálculo:
+\begin{equation}
+\label{eq:pi_aproximado}
+\int_{-1}^{1} \frac{dx}{\sqrt{1-x^{2}}} \approxeq \dfrac{\sum_{q \in \Qcal} \left(\sqrt{1-q^{2}}\right)^{-1}}{|\Qcal|} 
+\end{equation}
+onde $|\Qcal|$ é a cardinalidade do conjunto $\Qcal$.
+
+Utilizando o conjunto $\Qcal$, o resultado obtido foi $3.142843$.
+
+Para um valor de $N$ alto, foi utilizado $N = 10^{7}$, onde o valor obtido foi $3.1457290$.
+
+A lei dos grandes números garante que a com um número maior amostras utilizadas, a aproximação converge para o resultado da integral.
+
+
+\end{homeworkProblem}
+\clearpage
+\newpage
+%----------------------------------------------------------------------------------------
+
+\begin{homeworkProblem}
+	
+	Escrever um algoritmo para gerar números $x(n)$ com energia $J(x) = x^{2}$, de forma que as probabilidades dos números gerados ejam proporcionais aos fatores de Boltzmann $e^{-J(x)/T}$, com temperatura $T = 0.1$. Começando de um valor $x(0)$ qualquer, aplique sempre perturbações $\epsilon R$ ao valor $x(n)$ atual. Neste caso, R é uma vriável aleatória uniforme. Considere $\epsilon = 0.1$.
+	
+	\begin{homeworkSection}[a) Execute o algoritmo proposto no computador, calculando $x(n)$ até $n = 100.000$.]
+	O algoritmo em Python.
+		\begin{lstlisting}[language=Python]
+		# Ponto inicial x = 0
+		x_inicial = np.array(0)
+		
+		J_inicial = funcao_J(x_inicial)
+		x_atual = x_inicial
+		J_atual = J_inicial
+		
+		# Parametros utilizados
+		N = 10**5
+		T_inicial = 0.1
+		T = T_inicial
+		epsilon = 0.1
+		
+		fim = 0
+		n = 0
+		k = 1
+		J_min = J_atual
+		x_min = x_atual
+		
+		# Para armazenar os J e os x
+		todos_J = np.array([]), todos_x = np.array([]
+		
+		while not(fim):
+			n = n + 1
+			x = x_atual + epsilon*(np.random.uniform(-1, 1))
+			J = funcao_J(x)
+			todos_J = np.append(todos_J,J)
+			todos_x = np.append(todos_x,x)
+			if (np.random.uniform(0,1) < np.exp((J_atual-J)/T)):
+				x_atual = x
+				J_atual = J
+			if (J < J_min):
+				J_min = J
+				x_min = x
+			if (n % N == 0):
+				fim = 1
+		\end{lstlisting}
+		
+		
+	\end{homeworkSection}
+	\newpage
+	\begin{homeworkSection}[b) Execute manualmente os 10 primeiros passos do algoritmo.]
+		
+	Utilizando a mesma lógica proposta na letra a), executamos os 10 primeiros passos do algoritmo, manualmente.
+	
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[!h]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{c|c|c|c|c|c|c}
+			\multicolumn{1}{l|}{Iteração} & x atual & x candidato & J(x candidato) & r (uniforme) & q                               & r \textless q \\ \hline
+			\textbf{1}                    & 0.0000  & 0.0703      & 0.8262         & 0.9646       &  $\sim$ 3300 & V             \\
+			\textbf{2}                    & 0.0703  & 0.0770      & 0.7146         & 0.8961       & 3.0537                          & V             \\
+			\textbf{3}                    & 0.0770  & 0.1033      & 0.3512         & 0.2745       & 37.8699                         & V             \\
+			\textbf{4}                    & 0.1033  & 0.1109      & 0.2666         & 0.3008       & 2.3294                          & V             \\
+			\textbf{5}                    & 0.1109  & 0.2090      & -0.2062        & 0.1587       & 113.0382                        & V             \\
+			\textbf{6}                    & 0.2090  & 0.2666      & -0.1403        & 0.0232       & 0.5177                          & V             \\
+			\textbf{7}                    & 0.2666  & 0.2908      & -0.0771        & 0.0128       & 0.5312                          & V             \\
+			\textbf{8}                    & 0.2908  & 0.3590      & 0.1326         & 0.8441       & 0.1229                          & F             \\
+			\textbf{9}                    & 0.2908  & 0.3750      & 0.1782         & 0.5509       & 0.0779                          & F             \\
+			\textbf{10}                   & 0.2908  & 0.3051      & -0.0345        & 0.5210       & 0.6532                          & V            
+		\end{tabular}%
+	}
+\end{table}
+	
+	
+	\end{homeworkSection}
+
+
+\end{homeworkProblem}
+\clearpage
+\newpage
+
+\begin{homeworkProblem}
+Escrever um programa de S.A. (pode ser pseudo-código) para minimizar a função escalar $J(x) = -x + 100(x - 0.2)^{2}(x-0.8)^{2}$. Começando de $x(0) = 0$ e utilizando geradores de números aleatórios (um uniforme e outro gaussiano), calcule manualmente os 10 primeiros valores de $x(n)$ gerados pelo S.A.
+
+
+\begin{lstlisting}[language=Python]
+# Definindo a funcao
+def funcao_J(x):
+	return -x + 100*((x-0.2)**2)*((x-0.8)**2)
+
+# Definindo ponto inicial
+x_inicial = np.array(0)
+
+J_inicial = funcao_J(x_inicial)
+x_atual = x_inicial
+J_atual = J_inicial
+
+# Parametros utilizados
+N = 1000 
+K = 8
+T_inicial = 5e-3
+T = T_inicial
+epsilon = 10e-2
+
+fim = 0
+n = 0
+k = 1
+J_min = J_atual
+x_min = x_atual
+
+todos_J = np.array([])
+todos_x = np.array([])
+
+while not(fim):
+	n = n + 1
+	x = x_atual + epsilon*(np.random.normal(0, 1))
+	J = funcao_J(x)
+	todos_J = np.append(todos_J,J)
+	todos_x = np.append(todos_x,x)
+	if (np.random.uniform(0,1) < np.exp((J_atual-J)/T)):
+		x_atual = x
+		J_atual = J
+	if (J < J_min):
+		J_min = J
+		x_min = x
+	if (n % N == 0):
+		k = k + 1
+		T = T_inicial/(np.log(1+k))
+	if k == K:
+		fim = 1
+
+
+\end{lstlisting}
+
+\newpage
+O cálculo manual dos dez primeiros valores de x(n):
+
+Neste caso, quando o valor de  q $= \exp((J \, atual-J)/T)$ é muito grande, representei por $\sim$inf na tabela.
+
+\begin{table}[!h]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{c|c|c|c|c|c|c}
+			\multicolumn{1}{l|}{Iteração} & x atual & x candidato & J(x candidato) & r $\sim$ U(0,1) & q         & r \textless q \\ \hline
+			\textbf{1}                    & 0.0000  & 0.0775      & 0.7051         & 0.0940       & $\sim$inf & V             \\
+			\textbf{2}                    & 0.0775  & -0.0023     & 2.6372         & 0.3660       & 0         & F             \\
+			\textbf{3}                    & 0.0775  & 0.0766      & 0.7205         & 0.6785       & 0.0454    & F             \\
+			\textbf{4}                    & 0.0775  & 0.1179      & 0.1953         & 0.2147       & $\sim$inf & V             \\
+			\textbf{5}                    & 0.1179  & 0.1338      & 0.0604         & 0.8711       & $\sim$inf & V             \\
+			\textbf{6}                    & 0.1338  & 0.1121      & 0.2538         & 0.7671       & 0         & F             \\
+			\textbf{7}                    & 0.1338  & 0.1154      & 0.2204         & 0.9551       & 0         & F             \\
+			\textbf{8}                    & 0.1338  & 0.2042      & -0.2036        & 0.5003       & $\sim$inf & V             \\
+			\textbf{9}                    & 0.2042  & 0.1346      & 0.0545         & 0.1564       & 0         & F             \\
+			\textbf{10}                   & 0.2042  & 0.4453      & 0.3118         & 0.5321       & 0         & F            
+		\end{tabular}%
+	}
+\end{table}
+
+
+\end{homeworkProblem}
+%----------------------------------------------------------------------------------------
+\clearpage
+\newpage
+\begin{homeworkProblem}
+	Proponha uma função de até 4 variáveis cujo ponto mínimo você conheça, e encontre este ponto mínimo utilizando S.A. (neste exercício, basta entregar o código escrito).
+	
+	A função escolhida:
+	\begin{equation}
+	f(x,y) = (x-3)^{2} + xy + (y-1)^{2}
+	\end{equation}
+	Essa função tem mínimo em $\{x,y\} = \{\frac{10}{3},-\frac{2}{3}\}$.
+
+
+	O código em Python escrito para solução do problema:
+	
+	\begin{lstlisting}[language=Python]
+	
+# Definindo a funcao (que recebe um pont pt que eh funcao de x e y)
+def chosen_function(pt):
+	x = pt[0]
+	y = pt[1]
+	return (x-3)**2 + x*y + (y-1)**2
+
+# Ponto inicial	
+pt_inicial = np.array([0,0])
+
+J_inicial = chosen_function(pt_inicial)
+pt_atual = pt_inicial
+J_atual = J_inicial
+
+# Parametros utilizados
+N = 1000 
+K = 8
+T_inicial = 5e-1
+T = T_inicial
+epsilon = 10e-2
+
+fim = 0
+n = 0
+k = 1
+J_min = J_atual
+pt_min = pt_atual
+
+while not(fim):
+	n = n + 1
+	pt = pt_atual + epsilon*(np.random.normal(0, 1, 2))
+	J = chosen_function(pt)
+	if (np.random.uniform(0,1) < np.exp((J_atual-J)/T)):
+		pt_atual = pt
+		J_atual = J
+	if (J < J_min):
+		J_min = J
+		pt_min = pt
+	if (n % N == 0):
+		k = k + 1
+		T = T_inicial/(np.log(1+k))
+	if k == K:
+		fim = 1
+	
+	
+	
+	\end{lstlisting}
+		
+\end{homeworkProblem}
+
+
+\end{document}
