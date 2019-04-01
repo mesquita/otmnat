@@ -1,7 +1,7 @@
 % !TeX spellcheck = pt_BR
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Modelo adaptado do template original de 
+% Modelo adaptado do template original de
 % Ted Pavlic (http://www.tedpavlic.com)
 % Todos os créditos a ele.
 %
@@ -13,11 +13,10 @@
 % em um arquivo .cls separado.
 %
 % Crédito ao Roberto por ter feito
-% a maior parte do trabalho de passar 
-% para o português e fazer outros 
+% a maior parte do trabalho de passar
+% para o português e fazer outros
 % ajustes para a versão atual deste template.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 
 %----------------------------------------------------------------------------------------
@@ -29,13 +28,13 @@
 \usepackage{myMacros}
 
 
-\hmwkTitle{Lista\ de\ Exercícios\ \#2}
+\hmwkTitle{Lista\ de\ Exercícios \#2}
 \hmwkDueDate{Quinta,\ 28\ de\ Março,\ 2019}
 \hmwkClass{CPE723 Otimização Natural}
 \hmwkClassTime{Terças e Quintas: 08:00-10:00}
 \hmwkClassInstructor{Prof. José Gabriel Rodríguez Carneiro Gomese}
 \hmwkAuthorName{Vinicius Mesquita de Pinho}
-\hmwkAuthorShortName{Vinicius Mesquita} 
+\hmwkAuthorShortName{Vinicius Mesquita}
 
 \begin{document}
 
@@ -65,31 +64,66 @@ Considere um processo de Markov $X(t)$ que tem três estados possíveis: 0, 1 e 
 \begin{equation*}
 M = \begin{bmatrix}
 0.5 & 0.25 & 0.25 \\
-0.25 & 0.50 & 0.25 \\ 
-0.25 & 0.25 & 0.50 
+0.25 & 0.50 & 0.25 \\
+0.25 & 0.25 & 0.50
 \end{bmatrix}
 \end{equation*}
-\begin{homeworkSection}[a) Considerando que a distribuição de probabilidade de $X(0)$ é dada pelo vetor $\pbf_{0} = \left\lbrace0.3 \, \, 0.4 \, \, 0.3\right\rbrace^{\Trm}$, calcule a distribuição de probabilidade de $X(3)$ (ou seja, do processo de Markov no instante $t = 3$).] 
+\begin{homeworkSection}[a) Considerando que a distribuição de probabilidade de $X(0)$ é dada pelo vetor $\pbf_{0} = \left( 0.3 \, \, 0.4 \, \, 0.3 \right)^{\Trm}$, calcule a distribuição de probabilidade de $X(3)$ (ou seja, do processo de Markov no instante $t = 3$).]
+
+A distribuição de probabilidade de $X(1)$ pode ser calculada a partir da cadeia de Markov da seguinte maneira:
+\begin{equation*}
+	\pbf_{1} = \Mbf \pbf_{0}.
+\end{equation*}
+A distribuição de probabilidade de $X(2)$, seguindo a mesma ideia:
+\begin{equation*}
+	\pbf_{2} = \Mbf^{2} \pbf_{1}.
+\end{equation*}
+Logo, a distribuição de probabilidade de $X(3)$, pode ser obtida por:
+\begin{equation*}
+	\pbf_{3} = \Mbf^{3} \pbf_{2}.
+\end{equation*}
+Usando os valores dados pela questão, obtemos o seguinte vetor $\pbf_{3}^{\Trm} = \left( 0.3593 \, \, 0.3489 \, \, 0.3463 \right)$.
 \end{homeworkSection}
 
 
-\begin{homeworkSection}[b)Iniciando em $X(0) = 1$, e usando um gerador de números aleatórios (são necessários apenas três números aleatórios equiprováveis), calcule manualmente uma amostra do processo X(t) até $t = 3$.]	
+\begin{homeworkSection}[b)Iniciando em $X(0) = 1$, e usando um gerador de números aleatórios (são necessários apenas três números aleatórios equiprováveis), calcule manualmente uma amostra do processo X(t) até $t = 3$.]
+
+O código usado para a questão.
+\begin{lstlisting}[language=Python]
+	M = np.matrix('0.50 0.25 0.25; 0.25 0.50 0.25; 0.25 0.25 0.50')
+	estado_atual = 1
+	tempos_possiveis = np.array([1, 2, 3])
+	soma_coluna = 0
+	iterador = 0
+
+	for t in tempos_possiveis:
+		uniforme_sorteado = np.random.uniform(0,1)
+		while uniforme_sorteado > soma_coluna:
+			soma_coluna = soma_coluna + M[estado_atual,iterador]
+			iterador += 1
+		print(f'no tempo {t} => mudança de estado: de {estado_atual} para 
+		... {iterador}. uniforme sorteado foi {uniforme_sorteado:.3}')
+		estado_atual = iterador	
+\end{lstlisting}
+
+As saídas encontradas: \\
+No tempo 1 => Mudança de estado: de 1 para 2. Uniforme sorteado foi 0.441. \\
+No tempo 2 => Mudança de estado: de 2 para 2. Uniforme sorteado foi 0.564. \\
+No tempo 3 => Mudança de estado: de 2 para 3. Uniforme sorteado foi 0.773.
+\end{homeworkSection}
+
+
+\begin{homeworkSection}[c) Usando um computador, execute 100 repetições do item (b). Em cada uma das 100 repetições, comece a simulação com um valor diferente de $X(0)$, assumindo que os eventos $X(0) = 0$, $X(0) = 1$ e $X(0) = 2$ são equiprováveis. Armazene as 100 cadeiras obtidas em uma matriz $\Xbf$, com 4 colunas ($t = 0$ até $t = 3$) e 100 linhas.]
+\end{homeworkSection}
+
+\begin{homeworkSection}[d) Fazendo histogramas de cada uma das 4 colunas, calcule as distribuições de probabilidade do processo $X(t)$ em cada um dos 4 instantes: $t = 0, \, 1 \, 2 \, 3$. Comente os resultados obtidos.]
+
 
 \end{homeworkSection}
 
 
-\begin{homeworkSection}[c) Usando um computador, execute 100 repetições do item (b). Em cada uma das 100 repetições, comece a simulação com um valor diferente de $X(0)$, assumindo que os eventos $X(0) = 0$, $X(0) = 1$ e $X(0) = 2$ são equiprováveis. Armazene as 100 cadeiras obtidas em uma matriz $\Xbf$, com 4 colunas ($t = 0$ até $t = 3$) e 100 linhas.]	
-	
-\end{homeworkSection}
-
-\begin{homeworkSection}[d) Fazendo histogramas de cada uma das 4 colunas, calcule as distribuições de probabilidade do processo $X(t)$ em cada um dos 4 instantes: $t = 0, \, 1 \, 2 \, 3$. Comente os resultados obtidos.]	
-
-	
-\end{homeworkSection}
 
 
-
-	
 \end{homeworkProblem}
 \clearpage
 %----------------------------------------------------------------------------------------
@@ -101,37 +135,37 @@ Considere um sistema em que só há 5 estados possíveis: $x = 1$, $x = 2$, $x =
 
 \begin{center}
 	\begin{tabular}{|c|c|}
-		\hline 
-		$x$ & $J(x)$ \\ 
-		\hline 
-		1 & 0.5 \\ 
-		\hline 
-		2 & 0.2 \\ 
-		\hline 
-		3 & 0.3 \\ 
-		\hline 
-		4 & 0.1 \\ 
-		\hline 
-		5 & 0.5 \\ 
-		\hline 
-	\end{tabular}  
+		\hline
+		$x$ & $J(x)$ \\
+		\hline
+		1 & 0.5 \\
+		\hline
+		2 & 0.2 \\
+		\hline
+		3 & 0.3 \\
+		\hline
+		4 & 0.1 \\
+		\hline
+		5 & 0.5 \\
+		\hline
+	\end{tabular}
 \end{center}
 
 \begin{homeworkSection}[a) Considere um processo de Markov gerado pela aplicação do algoritmo de Metropolis aos dados da tabela acima, com temperatura fixa $T = 0.1$. Calcule a matriz de transição $M$ que define o processo de $X(t)$. Obs: note que o estado $X(t)$ é unidimensional, e portanto a matriz $M$ é $5 \times 5$.]
 \end{homeworkSection}
 
-\begin{homeworkSection}[b) Iniciando em $X(0) = 1$, calcule manualmente 4 amostras do processo X(t).]	
-\end{homeworkSection}	
+\begin{homeworkSection}[b) Iniciando em $X(0) = 1$, calcule manualmente 4 amostras do processo X(t).]
+\end{homeworkSection}
 
 \begin{homeworkSection}[c) Qual é o vetor invariante da matriz $M$ do item (a)? Obs: para facilitar os cálculos, pode-se usar o computador neste item.]
-\end{homeworkSection}	
+\end{homeworkSection}
 
-\begin{homeworkSection}[d) Calcule os fatores de Boltzmann (ou seja, $e^{-(J(x)/T)}$) associados aos dados da tabela acima, e compare-os com o resultado do item (c). Use $T = 0.1$.]	
-\end{homeworkSection}	
+\begin{homeworkSection}[d) Calcule os fatores de Boltzmann (ou seja, $e^{-(J(x)/T)}$) associados aos dados da tabela acima, e compare-os com o resultado do item (c). Use $T = 0.1$.]
+\end{homeworkSection}
 
 \begin{homeworkSection}[e) Simulated Annealing: Usando um computador, execute 1000 iterações do algoritmo de Metropolis em cada uma das 10 temperaturas a seguir. Na passagem de uma temperatura para a outra, use o estado atual. Comente as distribuições de probabilidade obtidas no final de cada temperatura.]
-	
-\end{homeworkSection}	
+
+\end{homeworkSection}
 
 
 
