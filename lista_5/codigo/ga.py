@@ -93,7 +93,6 @@ class Population(object):
                     r = r + 1 / num_parents
                     current_member = current_member + 1
                 ue = ue + 1
-            return self.mating_pool
 
     def xover(self, tp_xover='one_pt', xover_rate=0.7):
         if tp_xover == 'one_pt':
@@ -114,6 +113,7 @@ class Population(object):
                         needs_sigma=self.needs_sigma,
                         given_alleles=self.mating_pool[j].gen[:xchg_pt] +
                         self.mating_pool[i].gen[xchg_pt:]))
+
         if tp_xover == 'gbl_dscrt':
             indv_new = np.zeros(self.num_alelo)
             i, j = np.random.choice(range(self.num_alelo), 2)
@@ -128,7 +128,6 @@ class Population(object):
                     needs_sigma=self.needs_sigma,
                     num_alelo=self.num_alelo,
                     given_alleles=indv_new))
-            return indv_new
 
     def eval_xover(self, tp_xover='one_pt', xover_rate=0.7, num_xover=None):
         if num_xover is None:
@@ -168,8 +167,8 @@ class Population(object):
                     eps = 10**-3
                     self.mating_pool[idx].sigma = parent.sigma * np.exp(tau_prime * global_uni +
                                                                         tau * local_uni)
-                    for i, each_sigma in enumerate(parent.sigma):
-                        if each_sigma < eps:
+                    for i, es in enumerate(parent.sigma):
+                        if es < eps:
                             self.mating_pool[idx].sigma[i] = eps
 
         if tp_mut == 'metaEP':
@@ -180,30 +179,31 @@ class Population(object):
 
                 (s, g) = (np.array(parent.sigma), np.array(parent.gen))
 
-                s = s * (1 + alpha * global_n)
                 g = g + s * local_n
+                s = s * (1 + alpha * global_n)
 
                 (self.mating_pool[idx].sigma, self.mating_pool[idx].gen) = (list(s), list(g))
                 eps = 0.02
-                for i, each_sigma in enumerate(parent.sigma):
-                    if each_sigma < eps:
+                for i, es in enumerate(self.mating_pool[idx].sigma):
+                    if es < eps:
                         self.mating_pool[idx].sigma[i] = eps
 
     def suvivor_selection(self, tp_selection='ranking', num_rounds=10):
+
         if tp_selection == 'ranking':
             self.fitness(whose='parents')
             idx_sort = list(np.argsort(self.parents_score))
             self.suvivors = [self.mating_pool[i] for i in idx_sort[:self.pop_size]]
             return self.suvivors
+
         if tp_selection == 'tour':
             points = np.zeros(len(self.mating_pool))
             for c, competitor in enumerate(self.mating_pool):
                 fitness_competitor = competitor.fitness()
                 tds_sem_competitor = np.delete(self.mating_pool, c, axis=0)
                 for i in range(num_rounds):
-                    other = tds_sem_competitor[np.random.choice(range(len(tds_sem_competitor)))]
-                    other_fitness = other.fitness()
-                    if fitness_competitor < other_fitness:
+                    other = tds_sem_competitor[np.random.choice(range(tds_sem_competitor.size))]
+                    if fitness_competitor < other.fitness():
                         points[c] += 1
 
             idx_sort = np.flip(np.argsort(points))
