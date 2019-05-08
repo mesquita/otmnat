@@ -6,10 +6,6 @@ from ga import IndividualAbstract, Population
 if __name__ == "__main__":
 
     class Individual(IndividualAbstract):
-        def func_to_eval(self):
-            x = self.phenotype
-            return x**2 - 0.3 * np.cos(10 * np.pi * x)
-
         def fitness(self):
             if self.type_gen == 'binary':
                 b = [self.gen[-1]]
@@ -18,7 +14,8 @@ if __name__ == "__main__":
                 u = sum(2**k for k in range(self.num_alelo) if b[k])
                 u /= 2**self.num_alelo
                 self.phenotype = -2 + 4 * u
-                self.score = self.func_to_eval()
+                x = self.phenotype
+                self.score = x**2 - 0.3 * np.cos(10 * np.pi * x)
             return self.score
 
     type_gen = 'binary'
@@ -46,7 +43,7 @@ if __name__ == "__main__":
         pop.mutation(tp_mut=tp_mut, mutation_rate=mutation_rate)
         pop.individuals = pop.mating_pool[num_parents:]
         offspring_fitness = pop.fitness()
-        best_x.appenad(min(offspring_fitness))
+        best_x.append(min(offspring_fitness))
 
     print(
         f'O mínimo {min(best_x):.5} foi encontrado na geração de número {best_x.index(min(best_x))}.'
