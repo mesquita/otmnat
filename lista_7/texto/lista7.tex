@@ -1,0 +1,105 @@
+% !TeX spellcheck = pt_BR
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Modelo adaptado do template original de
+% Ted Pavlic (http://www.tedpavlic.com)
+% Todos os créditos a ele.
+%
+% Na versão atual, o que foi modificado
+% do original:
+% Ajusta a numeração das questões e
+% passa para português.
+% Além de separar as configurações
+% em um arquivo .cls separado.
+%
+% Crédito ao Roberto por ter feito
+% a maior parte do trabalho de passar
+% para o português e fazer outros
+% ajustes para a versão atual deste template.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES E OUTRAS CONFIGURAÇÕES
+%----------------------------------------------------------------------------------------
+
+\documentclass{homeworkclass}
+
+\usepackage{myMacros}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+
+
+\hmwkTitle{Lista\ de\ Exercícios \#7}
+\hmwkDueDate{Quinta,\ 23\ de\ Abril,\ 2019}
+\hmwkClass{CPE723 Otimização Natural}
+\hmwkClassTime{Terças e Quintas: 08:00--10:00}
+\hmwkClassInstructor{Prof.\ José Gabriel Rodríguez Carneiro Gomese}
+\hmwkAuthorName{Vinicius Mesquita de Pinho}
+\hmwkAuthorShortName{Vinicius Mesquita}
+
+\begin{document}
+
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	SUMÁRIO
+%----------------------------------------------------------------------------------------
+
+%\setcounter{tocdepth}{1} % Uncomment this line if you don't want subsections listed in the ToC
+
+\clearpage
+\newpage
+%\tableofcontents
+%\newpage
+
+%----------------------------------------------------------------------------------------
+%	QUESTÃO 1
+%----------------------------------------------------------------------------------------
+
+% To have just one problem per page, simply put a \clearpage after each problem
+
+
+\begin{homeworkProblem}
+Explique como o desempenho do algoritmo genético simples utilizado no Exercício 1 da Lista de Exercícios~\#4 pode ser melhorado através da utilização de métodos de algoritmos meméticos.  \\
+
+\textbf{Resposta:} \\
+Algoritmos meméticos usam conhecimentos já obtidos do problema para adicionar certa inteligência ao algoritmo evolucionário básico que irá ser aplicado para resolvê-lo. Esta inteligência pode vir de uma busca local, por exemplo. Podemos modificar o algoritmo da exercício citado acrescentando a linha 8 do seguinte pseudocódigo (retirado do livre), que acrescenta uma busca local:
+
+\begin{algorithm}
+	\caption{Simples Memetic Algorithm}\label{euclid}
+	\begin{algorithmic}[1]
+		\State \textbf{INITIALISE} population
+		\State \textbf{EVALUATE} each candidate
+		\State \textbf{REPEAT UNTIL} (termination condition) \textbf{DO}
+		\State \quad \textbf{SELECT} parents
+		\State \quad \textbf{RECOMBINE} to produce offspring
+		\State \quad \textbf{MUTATE} offspring
+		\State \quad \textbf{EVALUATE} offspring
+		\State \quad \textbf{IMPROVE} offspring via Local Search
+		\State \quad \textbf{SELECT} individuals for next generation
+	\end{algorithmic}
+\end{algorithm}
+Esta modificação, que acrescenta a busca local logo após a avaliação da aptidão dos filhos, proporciona uma chegada mais rápida a solução ótima acelerando a convergência. A ideia é que o algoritmo genético leve até a região onde há uma solução e a busca local ache tal solução, acelerando a convergência nesta parte em que o SGA demoraria mais. 
+Alguns pontos devem ser destacados, a busca local pode ser feita de duas maneiras, a chamada \textit{greedy}, no primeiro indivíduo mais apto descoberto a busca já é finalizada, ou a partir da chamada \textit{steepest}, em que a busca é feita em toda uma região definida. Também pode-se lançar mão de duas filosofias, a de Baldwin, em que somente a aptidão do indivíduo original da busca é substituída pela aptidão do melhor indivíduo achado na busca, ou pela ideia baseada em Lamarck, neste caso os genes do indivíduo original são substituídos pelos genes do melhor indivíduo achado na busca. 	
+Também é importante destacar que o algoritmo memético pode sofrer com a redução da diversidade, que pode fazer o algoritmo convergir prematuramente por conta da busca local com a concentração da população em mínimos locais. Tal perda de diversidade pode ser combatida com técnicas como \textit{fitness sharing} e \textit{crowding}. A primeira a fazer uma distribuição da população em quantidades proporcionais a cada nicho, onde a segunda busca distribuir uniformemente os indivíduos entre os nichos.   
+
+
+\end{homeworkProblem}
+\clearpage
+\begin{homeworkProblem}
+	Comente sobre as variáveis presentes na Equação~$(11.1)$ do livro-texto, descrevendo sucintamente os seus significados e a sua variação entre uma geração e a geração seguinte. \\
+\textbf{Resposta:} \\
+A Equação (11.1) é escrita abaixo:
+\begin{equation}
+m(H,t+1) \geq m(H,t) \frac{f(H)}{<f>} \left[1 - \left(p_c\frac{d(H)}{l-1}\right)\right] [1 - p_mo(H)].
+\end{equation}
+Esta equação mostra a relação entre a proporção $m(H)$ de indivíduos que representam o esquema $H$ entre gerações seguintes. O termo $\frac{f(H)}{<f>}$ se refere a seleção proporcional a aptidão (\emph{fitness proportionate selection}) e indica que esquemas com aptidão acima da média tendem a aumentar sua proporção de exemplos. O termo $1 - \left(p_c\frac{d(H)}{l-1}\right)$ apresenta a probabilidade de que a instância do esquema não seja destruído pelo \emph{crossover} de $1$ ponto com probabilidade $p_c$. O termo $1 - p_mo(H)$ é uma aproximação por truncamento da série de Taylor que indica a probabilidade que a instância do esquema não seja destruído por mutação com probabilidade $p_m$. A fórmula é uma inequação pois não são considerados os efeitos de criação de novas instâncias do esquema $H$ pelos operadores.
+\end{homeworkProblem}
+
+\end{document}
